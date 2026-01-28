@@ -6,25 +6,20 @@ A command-line implementation of the classic Snake and Ladder board game written
 
 - [Prerequisites](#prerequisites)
 - [Installation & Setup](#installation--setup)
-- [Building the Project](#building-the-project)
 - [How to Run](#how-to-run)
 - [How to Play](#how-to-play)
-- [Project Structure](#project-structure)
 - [Game Rules](#game-rules)
 - [Ladders & Snakes](#ladders--snakes)
 
 ## Prerequisites
 
-- **Go 1.24.1** or later (see [go.dev](https://go.dev/dl) to download)
-- macOS, Linux, or Windows with a terminal/command prompt
+- **Go 1.24.1**
 
 ### Verify Go Installation
 
 ```bash
 go version
 ```
-
-Should output something like: `go version go1.25.6 darwin/arm64`
 
 ## Installation & Setup
 
@@ -42,62 +37,15 @@ The project uses Go's standard library only, so dependencies are minimal:
 go mod download
 ```
 
-### Step 3: Verify Project Structure
-
-Ensure you have the following files in the directory:
-
-```
-snakeladder/
-├── main.go           # Main game loop and logic
-├── board.go          # Ladder and snake definitions
-├── dice.go           # Dice rolling logic
-├── go.mod            # Go module file
-├── README.md         # This file
-├── game/
-│   └── board.go      # Alternative board generation (unused)
-└── player/
-    └── player.go     # Player data structure
-```
-
-## Building the Project
-
-### Option 1: Build to Binary (Recommended)
-
-```bash
-go build -o snakeladder
-```
-
-This creates an executable file named `snakeladder` that you can run directly.
-
-### Option 2: Just Compile
-
-```bash
-go build
-```
-
 ## How to Run
 
-### Option 1: Direct Run (Fastest)
+### Direct Run
 
 ```bash
 go run .
 ```
 
 This compiles and runs the game in one command.
-
-### Option 2: Run the Compiled Binary
-
-```bash
-./snakeladder
-```
-
-(After building with `go build`)
-
-### Option 3: Run with Specific Files
-
-```bash
-go run main.go board.go dice.go
-```
 
 ## How to Play
 
@@ -138,20 +86,6 @@ You rolled: 5
 Player B is now on position 5
 (Game continues until someone reaches 100)
 ```
-
-## Project Structure
-
-### Core Files
-
-- **[main.go](main.go)** - Game loop, player turns, and game flow
-- **[board.go](board.go)** - Ladder and snake position definitions
-- **[dice.go](dice.go)** - Random dice rolling (1-6)
-- **[go.mod](go.mod)** - Go module configuration
-
-### Game Packages
-
-- **[player/player.go](player/player.go)** - Player struct and initialization
-- **[game/board.go](game/board.go)** - Alternative board generation logic (currently unused)
 
 ## Game Rules
 
@@ -204,10 +138,6 @@ Be the first player to reach position **100** on the board.
 | 93 → 73 |
 | 95 → 75 |
 | 98 → 79 |
-
-## License
-
-This is a learning project. Feel free to use and modify as needed.
 
 ---
 

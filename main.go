@@ -57,18 +57,25 @@ func play(ap *player.AllPlayers, l *AllLadders, s *AllSnakes, d *Dice) {
 			}
 
 			dicenumber := d.Roll()
+			if cp.CurrentPosition + dicenumber > 100 {
+				continue
+			}
 			cp.CurrentPosition += dicenumber
 			displayFinalPosition(cp)
 
 			if cp.CurrentPosition == 100 {
 				fmt.Printf("The winner is: %s\n", cp.Name)
-				break
+				return
 			}
 
 			snakebit, spos := checksnake(s, cp)
 			if snakebit {
 				cp.CurrentPosition = spos
 				displayFinalPosition(cp)
+				if cp.CurrentPosition == 100 {
+        			fmt.Printf("The winner is: %s\n", cp.Name)
+        			return
+    			}
 				currPos = cp.CurrentPosition
 				continue
 			}
@@ -77,6 +84,10 @@ func play(ap *player.AllPlayers, l *AllLadders, s *AllSnakes, d *Dice) {
 			if gotladder {
 				cp.CurrentPosition = lpos
 				displayFinalPosition(cp)
+				if cp.CurrentPosition == 100 {
+        			fmt.Printf("The winner is: %s\n", cp.Name)
+       				return
+    			}
 				currPos = cp.CurrentPosition
 				continue
 			}
