@@ -5,65 +5,54 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/dhruv42/snakeladder/cmd"
+	"github.com/dhruv42/snakeladder/game"
 	"github.com/dhruv42/snakeladder/player"
 )
 
 var scanner = bufio.NewScanner(os.Stdin)
 
 func main() {
-	// reader := bufio.NewReader(os.Stdin)
-	// fmt.Print("Enter text: ")
-	// text, _ := reader.ReadString('\n')
-	// fmt.Println("text ---", text)
-
-	var input string
+	cmd.Banner()
+	input := ""
 	for input != "q" {
 		fmt.Print("Who is player 1: ")
-		name1 := takeinput()
+		name1 := cmd.Takeinput()
 		fmt.Println()
 
 		fmt.Print("Who is player 2: ")
-		name2 := takeinput()
+		name2 := cmd.Takeinput()
+		fmt.Println()
 
 		allPlayers := player.New(name1, name2)
-		// board := game.New(10, 8, 8)
-		// temp, _ := json.Marshal(*board)
-		// fmt.Println("board ------", string(temp))
-		allLadders, allSnakes, dice := InitializeBoard()
+		board := game.New(10, 8, 8)
 
-		play(allPlayers, allLadders, allSnakes, dice)
-		// break
+		play(
+			allPlayers,
+			&AllLadders{Ladders: board.Ladders},
+			&AllSnakes{Snakes: board.Snakes},
+			NewDice())
 	}
-
-}
-
-func takeinput() string {
-	scanner.Scan()
-	return scanner.Text()
 }
 
 func play(ap *player.AllPlayers, l *AllLadders, s *AllSnakes, d *Dice) {
 	currPos := 0
-	fmt.Println("=================== starting the game ===================")
+	fmt.Print("=================== starting the game ===================\n\n")
+
 	for currPos != 100 {
 		for _, cp := range ap.Players {
-			// cp := cp
-			// fmt.Println("--------------------")
 			displayPlayerPosition(cp)
-
-			fmt.Print("Play, it is your turn: ")
-			if takeinput() != "r" {
+			if cmd.Takeinput() != "r" {
 				continue
 			}
 
 			dicenumber := d.Roll()
-			if cp.CurrentPosition + dicenumber > 100 {
+			if cp.CurrentPosition+dicenumber > 100 {
 				continue
 			}
 			cp.CurrentPosition += dicenumber
-			displayFinalPosition(cp)
-
-			if cp.CurrentPosition == 100 {
+			haswon := displayFinalPosition(cp)
+			if haswon {
 				fmt.Printf("The winner is: %s\n", cp.Name)
 				return
 			}
@@ -71,27 +60,29 @@ func play(ap *player.AllPlayers, l *AllLadders, s *AllSnakes, d *Dice) {
 			snakebit, spos := checksnake(s, cp)
 			if snakebit {
 				cp.CurrentPosition = spos
-				displayFinalPosition(cp)
-				if cp.CurrentPosition == 100 {
-        			fmt.Printf("The winner is: %s\n", cp.Name)
-        			return
-    			}
+				haswon = fallingDown(cp)
+				if haswon {
+					fmt.Printf("The winner is: %s\n", cp.Name)
+					return
+				}
 				currPos = cp.CurrentPosition
+				fmt.Println("######################################################\n")
 				continue
 			}
 
 			gotladder, lpos := checkladder(l, cp)
 			if gotladder {
 				cp.CurrentPosition = lpos
-				displayFinalPosition(cp)
-				if cp.CurrentPosition == 100 {
-        			fmt.Printf("The winner is: %s\n", cp.Name)
-       				return
-    			}
+				haswon = climbingTheLadder(cp)
+				if haswon {
+					fmt.Printf("The winner is: %s\n", cp.Name)
+					return
+				}
 				currPos = cp.CurrentPosition
+				fmt.Println("######################################################\n")
 				continue
 			}
-			fmt.Println("--------------------")
+			fmt.Println("######################################################\n")
 		}
 	}
 }
@@ -115,9 +106,20 @@ func checkladder(ladders *AllLadders, p *player.Player) (bool, int) {
 }
 
 func displayPlayerPosition(cp *player.Player) {
-	fmt.Printf("Current player: %s is on %d\n", cp.Name, cp.CurrentPosition)
+	fmt.Printf("%s, you are on (%d), it's your turn: ", cp.Name, cp.CurrentPosition)
 }
 
-func displayFinalPosition(cp *player.Player) {
-	fmt.Printf("%s reaches on %d\n", cp.Name, cp.CurrentPosition)
+func displayFinalPosition(cp *player.Player) bool {
+	fmt.Printf("%s, you landed on (%d)\n\n", cp.Name, cp.CurrentPosition)
+	return cp.CurrentPosition == 100
+}
+
+func climbingTheLadder(cp *player.Player) bool {
+	fmt.Printf("%s, guess who got lucky 🥳 to climb 🪜, reaching at .... (%d)\n\n", cp.Name, cp.CurrentPosition)
+	return cp.CurrentPosition == 100
+}
+
+func fallingDown(cp *player.Player) bool {
+	fmt.Printf("%s, oppsiee whopssieee 😿, you got a 🐍 bite, coming back stronger from position ..... (%d)\n\n", cp.Name, cp.CurrentPosition)
+	return cp.CurrentPosition == 100
 }

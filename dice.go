@@ -16,7 +16,7 @@ func NewDice() *Dice {
 func (d *Dice) Roll() int {
 	newcurr := rand.IntN(7-1) + 1
 	d.set(newcurr)
-	fmt.Printf("Diceeeeeeeee shows: %d\n", newcurr)
+	fmt.Printf("Rollingggggg the dice........ and it is: %d\n", newcurr)
 	return newcurr // because last number is exclusive in the range
 }
 

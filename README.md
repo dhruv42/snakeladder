@@ -1,4 +1,7 @@
-# Snake & Ladder Game
+<h2 style="border-bottom:none;">Snake &amp; Ladder Game</h2>
+<p><em>(Developed by human (not AI) with love 💙)</em></p>
+
+---
 
 A command-line implementation of the classic Snake and Ladder board game written in **Go**. This is a low-level design (LLD) project demonstrating game logic, player management, and turn-based gameplay.
 
