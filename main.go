@@ -16,14 +16,21 @@ func main() {
 	// text, _ := reader.ReadString('\n')
 	// fmt.Println("text ---", text)
 
-	var input string
-	for input != "q" {
+	for {
 		fmt.Print("Who is player 1: ")
 		name1 := takeinput()
+		if name1 == "q" { 
+			fmt.Println("Exiting game.")
+			return
+		}
 		fmt.Println()
 
 		fmt.Print("Who is player 2: ")
 		name2 := takeinput()
+		if name2 == "q" { 
+			fmt.Println("Exiting game.")
+			return
+		}
 
 		allPlayers := player.New(name1, name2)
 		// board := game.New(10, 8, 8)
@@ -32,7 +39,7 @@ func main() {
 		allLadders, allSnakes, dice := InitializeBoard()
 
 		play(allPlayers, allLadders, allSnakes, dice)
-		// break
+		return
 	}
 
 }
@@ -51,24 +58,35 @@ func play(ap *player.AllPlayers, l *AllLadders, s *AllSnakes, d *Dice) {
 			// fmt.Println("--------------------")
 			displayPlayerPosition(cp)
 
-			fmt.Print("Play, it is your turn: ")
-			if takeinput() != "r" {
+			fmt.Print("Play, it is your turn (type 'r' to roll, 'q' to quit): ")
+			cmd := takeinput()
+			if cmd == "q" {
+				fmt.Println("Game exited.")
+				return
+			} else if cmd != "r" {
 				continue
 			}
 
 			dicenumber := d.Roll()
+			if cp.CurrentPosition + dicenumber > 100 {
+				continue
+			}
 			cp.CurrentPosition += dicenumber
 			displayFinalPosition(cp)
 
 			if cp.CurrentPosition == 100 {
 				fmt.Printf("The winner is: %s\n", cp.Name)
-				break
+				return
 			}
 
 			snakebit, spos := checksnake(s, cp)
 			if snakebit {
 				cp.CurrentPosition = spos
 				displayFinalPosition(cp)
+				if cp.CurrentPosition == 100 {
+        			fmt.Printf("The winner is: %s\n", cp.Name)
+        			return
+    			}
 				currPos = cp.CurrentPosition
 				continue
 			}
@@ -77,6 +95,10 @@ func play(ap *player.AllPlayers, l *AllLadders, s *AllSnakes, d *Dice) {
 			if gotladder {
 				cp.CurrentPosition = lpos
 				displayFinalPosition(cp)
+				if cp.CurrentPosition == 100 {
+        			fmt.Printf("The winner is: %s\n", cp.Name)
+       				return
+    			}
 				currPos = cp.CurrentPosition
 				continue
 			}
