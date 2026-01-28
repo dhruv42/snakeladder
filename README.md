@@ -12,7 +12,6 @@ A command-line implementation of the classic Snake and Ladder board game written
 - [Project Structure](#project-structure)
 - [Game Rules](#game-rules)
 - [Ladders & Snakes](#ladders--snakes)
-- [Contributing Guidelines](#contributing-guidelines)
 
 ## Prerequisites
 
@@ -125,18 +124,18 @@ go run main.go board.go dice.go
 ### Example Game Flow
 
 ```
-Who is player 1: Sagar
-Who is player 2: Dhruv
+Who is player 1: Player A
+Who is player 2: Player B
 =================== starting the game ===================
-Current player: Sagar is on 0
+Current player: Player A is on 0
 Play, it is your turn: r
 You rolled: 4
-Sagar is now on position 4
+Player A is now on position 4
 
-Current player: Dhruv is on 0
+Current player: Player B is on 0
 Play, it is your turn: r
 You rolled: 5
-Dhruv is now on position 5
+Player B is now on position 5
 (Game continues until someone reaches 100)
 ```
 
@@ -205,57 +204,6 @@ Be the first player to reach position **100** on the board.
 | 93 → 73 |
 | 95 → 75 |
 | 98 → 79 |
-
-## Contributing Guidelines
-
-### Code Style
-
-- Follow Go's standard conventions (use `gofmt`)
-- Write clear, descriptive function and variable names
-- Add comments for non-obvious logic
-
-### Format Code
-
-```bash
-go fmt ./...
-```
-
-### Lint Code
-
-```bash
-go vet ./...
-```
-
-### Best Practices
-
-1. Keep functions small and focused
-2. Use meaningful variable names
-3. Add error handling where needed
-4. Document public functions and packages
-5. Test changes before committing
-
-### Pull Request Process
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/your-feature`)
-3. Make your changes
-4. Run `go fmt` and `go vet`
-5. Commit with clear messages
-6. Push and create a pull request
-
-## Troubleshooting
-
-### "go: command not found"
-
-Install Go from [go.dev](https://go.dev/dl)
-
-### "module not found"
-
-Run `go mod download` in the project directory
-
-### Game won't compile
-
-Ensure all files are in the correct directory and run `go build`
 
 ## License
 
