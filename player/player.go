@@ -16,11 +16,3 @@ func New(names ...string) *AllPlayers {
 	}
 	return ap
 }
-
-// func (a *AllPlayers) Add(name string) *Player {
-// 	// ap.Players = append(ap.Players, Player{Name: name})
-// 	return &Player{
-// 		Name:            name,
-// 		CurrentPosition: 0,
-// 	}
-// }
